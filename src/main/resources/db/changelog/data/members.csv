@@ -1,0 +1,9 @@
+id,name,email,phone,address,joined_at
+1,John Smith,john.smith@email.com,+1234567890,123 Main St New York,2023-01-15 09:00:00
+2,Sarah Johnson,sarah.j@email.com,+1234567891,456 Oak Ave Boston,2023-02-20 10:00:00
+3,Ahmed Hassan,ahmed.h@email.com,+1234567892,789 Pine Rd Chicago,2023-03-10 11:00:00
+4,Maria Garcia,maria.g@email.com,+1234567893,321 Elm St Miami,2023-04-05 09:30:00
+5,David Lee,david.lee@email.com,+1234567894,654 Maple Ave Seattle,2023-05-12 14:00:00
+6,Emma Wilson,emma.w@email.com,+1234567895,987 Cedar Rd Austin,2023-06-18 10:30:00
+7,James Brown,james.b@email.com,+1234567896,147 Birch St Denver,2023-07-22 11:30:00
+8,Lisa Chen,lisa.chen@email.com,+1234567897,258 Walnut Ave Portland,2023-08-30 09:00:00

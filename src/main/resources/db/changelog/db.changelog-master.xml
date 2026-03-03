@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+<!--v1-->
+    <include file="db/changelog/changes/01-create-tables.xml"/>
+    <include file="db/changelog/changes/02-seed-data.xml"/>
+<!--v2-->
+    <include file="db/changelog/changes/03-add-table-authorizer.xml"/>
+    <include file="db/changelog/changes/04-add-table-statuses.xml"/>
+    <include file="db/changelog/changes/05-add-key-and-column-to-borrowing.xml"/>
+    <include file="db/changelog/changes/06.seed-authorizer.xml"/>
+
+</databaseChangeLog>
+

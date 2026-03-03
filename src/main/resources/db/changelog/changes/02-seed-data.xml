@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="5" author="dev">
+        <loadUpdateData tableName="categories"
+                        file="db/changelog/data/categories.csv"
+                        primaryKey="id">
+            <column name="id" type="NUMERIC"/>
+            <column name="name" type="STRING"/>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="6" author="dev">
+        <loadUpdateData tableName="books"
+                        file="db/changelog/data/books.csv"
+                        primaryKey="id">
+            <column name="id" type="NUMERIC"/>
+            <column name="title" type="STRING"/>
+            <column name="author" type="STRING"/>
+            <column name="isbn" type="STRING"/>
+            <column name="stock" type="NUMERIC"/>
+            <column name="category_id" type="NUMERIC"/>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="7" author="dev">
+        <loadUpdateData tableName="members"
+                        file="db/changelog/data/members.csv"
+                        primaryKey="id">
+            <column name="id" type="NUMERIC"/>
+            <column name="name" type="STRING"/>
+            <column name="email" type="STRING"/>
+            <column name="phone" type="STRING"/>
+            <column name="address" type="STRING"/>
+            <column name="joined_at" type="DATE"/>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="8" author="dev">
+        <loadUpdateData tableName="borrowings"
+                        file="db/changelog/data/borrowings.csv"
+                        primaryKey="id">
+            <column name="id" type="NUMERIC"/>
+            <column name="member_id" type="NUMERIC"/>
+            <column name="book_id" type="NUMERIC"/>
+            <column name="borrowed_at" type="DATE"/>
+            <column name="due_date" type="DATE"/>
+            <column name="returned_at" type="DATE"/>
+            <column name="fine" type="NUMERIC"/>
+        </loadUpdateData>
+    </changeSet>
+
+
+
+</databaseChangeLog>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="11" author="dev">
+        <!-- add status_id -->
+        <addColumn tableName="borrowings">
+            <column name="status_id" type="INT" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <!-- add authorizer_id -->
+        <addColumn tableName="borrowings">
+            <column name="authorizer_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <!-- FK to borrow_statuses -->
+        <addForeignKeyConstraint
+                baseTableName="borrowings"
+                baseColumnNames="status_id"
+                referencedTableName="borrow_statuses"
+                referencedColumnNames="id"
+                constraintName="fk_borrowings_status"
+                onDelete="RESTRICT"/>
+
+        <!-- FK to users/admins -->
+        <addForeignKeyConstraint
+                baseTableName="borrowings"
+                baseColumnNames="authorizer_id"
+                referencedTableName="authorizers"
+                referencedColumnNames="id"
+                constraintName="fk_borrowings_authorizer"
+                onDelete="SET NULL"/>
+
+    </changeSet>
+
+</databaseChangeLog>

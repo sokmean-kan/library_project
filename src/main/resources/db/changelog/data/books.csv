@@ -1,0 +1,11 @@
+id,title,author,isbn,stock,category_id
+1,A Brief History of Time,Stephen Hawking,978-0553380163,5,1
+2,The Art of War,Sun Tzu,978-0140455526,3,6
+3,Clean Code,Robert C. Martin,978-0132350884,4,2
+4,Sapiens,Yuval Noah Harari,978-0062316097,6,4
+5,The Great Gatsby,F. Scott Fitzgerald,978-0743273565,2,5
+6,Introduction to Algorithms,Thomas H. Cormen,978-0262033848,3,3
+7,Gray's Anatomy,Henry Gray,978-0702052309,2,7
+8,The Republic,Plato,978-0140455113,4,6
+9,Python Crash Course,Eric Matthes,978-1593279288,5,2
+10,Thinking Fast and Slow,Daniel Kahneman,978-0374533557,3,1

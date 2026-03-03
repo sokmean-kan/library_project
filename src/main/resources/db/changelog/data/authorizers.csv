@@ -1,0 +1,4 @@
+id,name,email,phone,created_at
+1,John Admin,john.admin@library.com,+1234567001,2023-01-01 08:00:00
+2,Sarah Librarian,sarah.lib@library.com,+1234567002,2023-01-01 08:00:00
+3,David Staff,david.staff@library.com,+1234567003,2023-01-01 08:00:00
