@@ -6,12 +6,13 @@ import java.time.LocalDateTime
 
 data class UpdateStatusRequest(
     val authorizerId: Long,
-    val statusId: Int,
+    val statusId: Int
 )
-data class SetDueDateRequest(
+data class ApprovalBorrowRequest(
     val dueDate: LocalDateTime,
+    val authorizerId: Long
 )
 data class ReturnedApprovalRequest(
     val returnedDate: LocalDateTime?= LocalDateTime.now(),
-    val authorizerId: Long
+    val receiverId: Long
 )

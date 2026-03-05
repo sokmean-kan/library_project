@@ -25,4 +25,5 @@ data class Borrowing(
     val fine: BigDecimal,
     var statusId: Int? = 1,
     var authorizerId: Long? = null,
+    var receiverId: Long? = null,
 )

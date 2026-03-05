@@ -13,6 +13,8 @@
     <include file="db/changelog/changes/04-add-table-statuses.xml"/>
     <include file="db/changelog/changes/05-add-key-and-column-to-borrowing.xml"/>
     <include file="db/changelog/changes/06.seed-authorizer.xml"/>
+<!--    v2.1-->
+    <include file="db/changelog/changes/07.add-column-to-borrowings.xml"/>
 
 </databaseChangeLog>
 

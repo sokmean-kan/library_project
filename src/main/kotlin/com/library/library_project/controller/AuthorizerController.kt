@@ -1,7 +1,7 @@
 package com.library.library_project.controller
 
+import com.library.library_project.dto.request.ApprovalBorrowRequest
 import com.library.library_project.dto.request.ReturnedApprovalRequest
-import com.library.library_project.dto.request.SetDueDateRequest
 import com.library.library_project.dto.request.UpdateStatusRequest
 import com.library.library_project.dto.response.Status
 import com.library.library_project.dto.response.UpdateStatusResponse
@@ -19,18 +19,18 @@ class AuthorizerController(private val authorizerService: AuthorizerService) {
     @PostMapping("/status/{id}")
     fun updateStatus(
         @PathVariable id: Long,
-        @RequestBody updateStatusRequest: UpdateStatusRequest
-    ): ResponseEntity<UpdateStatusResponse> {
-        val response = authorizerService.updateStatus(id, updateStatusRequest)
+//        @RequestBody updateStatusRequest: UpdateStatusRequest
+    ): ResponseEntity<Status> {
+        val response = authorizerService.updateStatusToOverDue(id)
         return ResponseEntity.ok(response)
     }
 
     @PostMapping("/setDueDate/{id}")
     fun setDueDate(
         @PathVariable id: Long,
-        @RequestBody setDueDateRequest: SetDueDateRequest
-    ): ResponseEntity<Status> {
-        val response = authorizerService.setDueDate(id,setDueDateRequest)
+        @RequestBody approvalRequest: ApprovalBorrowRequest
+    ): ResponseEntity<UpdateStatusResponse> {
+        val response = authorizerService.approvalBorrowing(id,approvalRequest)
         return ResponseEntity.ok(response)
     }
 

@@ -1,7 +1,7 @@
 package com.library.library_project.service
 
+import com.library.library_project.dto.request.ApprovalBorrowRequest
 import com.library.library_project.dto.request.ReturnedApprovalRequest
-import com.library.library_project.dto.request.SetDueDateRequest
 import com.library.library_project.dto.request.UpdateStatusRequest
 import com.library.library_project.dto.response.Approved
 import com.library.library_project.dto.response.Status
@@ -18,40 +18,46 @@ class AuthorizerService(
     private val bookRepository: BookRepository,
     private val memberRepository: MemberRepository
 ) {
-    fun updateStatus(id:Long,request: UpdateStatusRequest): UpdateStatusResponse {
+    fun updateStatusToOverDue(id:Long): Status {
         val foundBorrowing = borrowingRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Not found borrowing with id $id") }
 
         val foundBook = bookRepository.findById(foundBorrowing.bookId).get()
 
+        val borrowerFound = memberRepository.findById(foundBorrowing.memberId).get()
+
+//        val foundStatus = statusRepository.findById(request.statusId).orElseThrow{ ResourceNotFoundException("Not found status with id ${request.statusId}") }
+
+//        val approvedBy = authorizerRepository.findById(request.authorizerId).orElseThrow { ResourceNotFoundException("Not found authorizer with id ${request.authorizerId}") }
+        foundBorrowing.statusId = 4
+//        foundBorrowing.authorizerId = approvedBy.id
+        borrowingRepository.save(foundBorrowing)
+        return Status(
+            message = "Book:'${foundBook.title}' borrowed by '${borrowerFound.name}' was over due dates!",
+        )
+    }
+
+    fun approvalBorrowing(id: Long, request: ApprovalBorrowRequest): UpdateStatusResponse {
+        val foundBorrowing = borrowingRepository.findById(id).orElseThrow { ResourceNotFoundException("Not found borrowing with id $id") }
+        val foundBook = bookRepository.findById(foundBorrowing.bookId).get()
         val memberFound = memberRepository.findById(foundBorrowing.memberId).get()
+        val approvedBy = authorizerRepository.findById(request.authorizerId).orElseThrow { ResourceNotFoundException("Not found authorizer with id ${request.authorizerId}") }
 
-        val foundStatus = statusRepository.findById(request.statusId).orElseThrow{ ResourceNotFoundException("Not found status with id ${request.statusId}") }
 
-        val approvedBy = authorizerRepository.findById(request.authorizerId).get()
-        foundBorrowing.statusId = request.statusId
-        foundBorrowing.authorizerId = request.authorizerId
+        foundBorrowing.dueDate = request.dueDate
+        foundBorrowing.statusId = 2
+        foundBorrowing.authorizerId = approvedBy.id
         borrowingRepository.save(foundBorrowing)
         return UpdateStatusResponse(
             Status(
-                message = "Updated status to ${foundStatus.name}",
+                message = "Borrowing approved",
             ),
             borrowing = Approved(
                 bookTitle = foundBook.title?:"Unknown",
                 borrowerName = memberFound.name?:"Unknown",
                 approvedBy = approvedBy.name?:"Unknown",
 
-            )
-        )
-    }
-
-    fun setDueDate(id: Long, request: SetDueDateRequest): Status {
-        val foundBorrowing = borrowingRepository.findById(id).orElseThrow { ResourceNotFoundException("Not found borrowing with id $id") }
-        val foundBook = bookRepository.findById(foundBorrowing.bookId).get()
-        foundBorrowing.dueDate = request.dueDate
-        borrowingRepository.save(foundBorrowing)
-        return Status(
-            message = "Due date of borrowing book: ${foundBook.title} is ${foundBorrowing.dueDate}",
+                )
         )
     }
 
@@ -59,7 +65,14 @@ class AuthorizerService(
         val foundBorrowing = borrowingRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Not found borrowing with id $id") }
         foundBorrowing.returnedAt = request.returnedDate
-        foundBorrowing.authorizerId = request.authorizerId
+        val receiver = authorizerRepository.findById(request.receiverId).orElseThrow { ResourceNotFoundException("Not found receiver with id ${request.receiverId}") }
+        foundBorrowing.receiverId = receiver.id
+        if (foundBorrowing.statusId ==1){
+            throw ResourceNotFoundException("Not approved yet")
+        }else if (foundBorrowing.statusId ==3){
+            throw ResourceNotFoundException("Already returned")
+        }
+        foundBorrowing.statusId = 3
         borrowingRepository.save(foundBorrowing)
         return Status(
             message = "Returned approval at ${request.returnedDate}"
