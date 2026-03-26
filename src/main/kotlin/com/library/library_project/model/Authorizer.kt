@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 data class Authorizer(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "authorizer_id_seq", sequenceName = "authorizers_id_seq", allocationSize = 30, initialValue = 4)
+    @SequenceGenerator(name = "authorizer_id_seq", sequenceName = "authorizers_id_seq", allocationSize = 30, initialValue = 10)
     var id: Long = 0,
     var name: String? = "",
     var email: String? = "",

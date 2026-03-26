@@ -1,12 +1,14 @@
 package com.library.library_project.service
 
 import com.library.library_project.dto.request.ApprovalBorrowRequest
+import com.library.library_project.dto.request.CreateAuthorizerRequest
 import com.library.library_project.dto.request.ReturnedApprovalRequest
-import com.library.library_project.dto.request.UpdateStatusRequest
 import com.library.library_project.dto.response.Approved
 import com.library.library_project.dto.response.Status
 import com.library.library_project.dto.response.UpdateStatusResponse
 import com.library.library_project.exception.ResourceNotFoundException
+import com.library.library_project.mapper.toAuthorizer
+import com.library.library_project.model.Authorizer
 import com.library.library_project.repository.*
 import org.springframework.stereotype.Service
 
@@ -14,10 +16,18 @@ import org.springframework.stereotype.Service
 class AuthorizerService(
     private val authorizerRepository: AuthorizerRepository,
     private val borrowingRepository: BorrowingRepository,
-    private val statusRepository: StatusRepository,
     private val bookRepository: BookRepository,
     private val memberRepository: MemberRepository
 ) {
+    //create new authorizer
+    fun createAuthorizer(request: CreateAuthorizerRequest): Authorizer {
+//        val user = authorizerRepository.existsByEmail(request.email) // Already created annotation UniqueEmail
+//        if (user) {
+//            throw ResourceNotFoundException("Email already exists")
+//        }
+        val result = authorizerRepository.save(request.toAuthorizer())
+        return result
+    }
     fun updateStatusToOverDue(id:Long): Status {
         val foundBorrowing = borrowingRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Not found borrowing with id $id") }
@@ -33,7 +43,7 @@ class AuthorizerService(
 //        foundBorrowing.authorizerId = approvedBy.id
         borrowingRepository.save(foundBorrowing)
         return Status(
-            message = "Book:'${foundBook.title}' borrowed by '${borrowerFound.name}' was over due dates!",
+            message = """Book:"${foundBook.title}" borrowed by "${borrowerFound.name}" was over due dates!""",
         )
     }
 
@@ -43,7 +53,11 @@ class AuthorizerService(
         val memberFound = memberRepository.findById(foundBorrowing.memberId).get()
         val approvedBy = authorizerRepository.findById(request.authorizerId).orElseThrow { ResourceNotFoundException("Not found authorizer with id ${request.authorizerId}") }
 
-
+        if (foundBorrowing.statusId == 2){
+            throw ResourceNotFoundException("The borrowing has already been approved")
+        }else if(foundBorrowing.statusId == 3){
+            throw ResourceNotFoundException("The borrowing has returned")
+        }
         foundBorrowing.dueDate = request.dueDate
         foundBorrowing.statusId = 2
         foundBorrowing.authorizerId = approvedBy.id

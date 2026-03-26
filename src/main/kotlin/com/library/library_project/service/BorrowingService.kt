@@ -22,6 +22,7 @@ class BorrowingService(
     private val authorizerRepository: AuthorizerRepository
 ) {
     fun createBorrowing(request: BorrowingRequest): BorrowingResForm {
+        bookRepository.findById(request.bookId).orElseThrow { ResourceNotFoundException("Book Not Found") }
         val result = borrowingRepository.save(request.toBorrowing())
         val lastResult = result.toBorrowingResForm()
         return lastResult
